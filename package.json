@@ -2,7 +2,7 @@
   "name": "hansol-heroku",
   "version": "0.0.1",
   "description": "heroku-test",
-  "main": "server.js",
+  "main": "",
   "scripts": {
     "start": "node server.js"
   },
