@@ -2,9 +2,10 @@
   "name": "hansol-heroku",
   "version": "0.0.1",
   "description": "heroku-test",
-  "main": "",
+  "main": "app.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
