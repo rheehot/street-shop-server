@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/9992/HEROKU#readme",
   "dependencies": {
+    "ejs": "^2.6.2",
     "express": "^4.17.1"
   }
 }
