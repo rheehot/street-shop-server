@@ -1,0 +1,19 @@
+{
+  "name": "hansol-heroku",
+  "version": "0.0.1",
+  "description": "heroku-test",
+  "main": "index.html",
+  "scripts": {
+    "test": "start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/9992/HEROKU.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/9992/HEROKU/issues"
+  },
+  "homepage": "https://github.com/9992/HEROKU#readme"
+}
