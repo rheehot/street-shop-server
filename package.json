@@ -2,9 +2,9 @@
   "name": "hansol-heroku",
   "version": "0.0.1",
   "description": "heroku-test",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
