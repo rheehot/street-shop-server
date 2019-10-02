@@ -1,21 +1,23 @@
 const http = require('http');
 const express = require('express');
 const api = require('./api');
-const log = require('./lib/log');
-// const middleware = require('./config/middleware');
 const config = require('./config/environment');
 
 // create server
 const app = express();
 const server = http.createServer(app);
-// middleware.setup(app);
+
+
+// 라우트 설정
+api.route(app);
+
 
 /**
  * 처리하지 못한 예외 로그 기록
  */
 process.on('uncaughtException', (err) => {
-  log.error('UncaughtException', `[${err.name}] ${err.message}`);
-  log.error('UncaughtException', err.stack);
+    console.error('UncaughtException', `[${err.name}] ${err.message}`);
+    console.error('UncaughtException', err.stack);
 });
 
 /**
@@ -25,18 +27,18 @@ process.on('uncaughtException', (err) => {
  *  - 데이터베이스 커넥션 종료
  */
 process.on('SIGINT', () => {
-  io.close(() => {
-    server.close(() => {
-      log.info('APP', 'close.');
-      //TODO 디비연결해재부분
-      //   database.mystockDb.close();
-      process.exit(0);
+    io.close(() => {
+        server.close(() => {
+            console.info('APP', 'close.');
+            //TODO 디비연결해재부분
+            //   database.mystockDb.close();
+            process.exit(0);
+        });
     });
-  });
 });
 
 server.listen(config.port, () => {
-  log.info('APP', `listening on port ${config.port}, in ${config.env} mode.`);
+    console.info('APP', `listening on port ${config.port}, in ${config.env} mode.`);
 });
 
 module.exports = server;
