@@ -7,7 +7,7 @@ const StorySchema = new mongoose.Schema({
     contents: String
 });
 
-global.Story = global.Story || mongoose.model('Story', StorySchema);
+global.Story = global.Story || mongoose.model('books', StorySchema);
 const Story = mongoose.model('books', StorySchema);
 
 module.exports = Story;

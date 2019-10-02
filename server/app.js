@@ -2,6 +2,7 @@ const http = require('http');
 const express = require('express');
 const api = require('./api');
 const config = require('./config/environment');
+const database = require('./config/database');
 
 // create server
 const app = express();
@@ -10,7 +11,6 @@ const server = http.createServer(app);
 
 // 라우트 설정
 api.route(app);
-
 
 /**
  * 처리하지 못한 예외 로그 기록
@@ -31,7 +31,7 @@ process.on('SIGINT', () => {
         server.close(() => {
             console.info('APP', 'close.');
             //TODO 디비연결해재부분
-            //   database.mystockDb.close();
+            database.mongooseDb.close();
             process.exit(0);
         });
     });
