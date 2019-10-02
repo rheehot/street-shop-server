@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-//테스트중
 const StorySchema = new mongoose.Schema({
     name: String,
     title: String,

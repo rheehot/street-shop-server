@@ -1,4 +1,3 @@
-const mongoose = require('mongoose')
 const users = require('../model/Users')
 
 async function join(req, res) {

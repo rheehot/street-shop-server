@@ -30,7 +30,7 @@ process.on('SIGINT', () => {
     io.close(() => {
         server.close(() => {
             console.info('APP', 'close.');
-            //TODO 디비연결해재부분
+            //TODO 디비연결해제부분
             database.mongooseDb.close();
             process.exit(0);
         });
