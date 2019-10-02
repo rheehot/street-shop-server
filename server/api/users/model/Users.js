@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const StorySchema = new mongoose.Schema({
+const BooksSchema = new mongoose.Schema({
     name: String,
     title: String,
     contents: String
 });
 
-global.Story = global.Story || mongoose.model('books', StorySchema);
-const Story = mongoose.model('books', StorySchema);
+global.Books = global.Books || mongoose.model('books', BooksSchema);
+const Books = mongoose.model('books', BooksSchema);
 
-module.exports = Story;
+module.exports = Books;
