@@ -6,22 +6,21 @@ const mongo = config.database.mongoosedb;
 /**
  * 마이스탁리뷰 DB 커넥션
  */
-
+// function connect() {
+//     mongoose.connect(`${mongo.dialect}://${mongo.username}:${mongo.password}@${mongo.host}:${mongo.port}/${mongo.path}`,{
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//     }).then(console.log('mongoDB Connection Success'));
+// }
 const mongooseDb = ()=>{
-    // function connect() {
-    //     mongoose.connect(`mongodb://${mongo.username}:${mongo.password}@${mongo.host}:${mongo.port}/admin`,(err) => {
-    //         if(err){
-    //             console.error('mongoDB Connection Error')
-    //         } else {
-    //             console.log('mongoDB Connection Success')
-    //         }
-    //     });
-    // }
     function connect() {
-        mongoose.connect(`mongodb://${mongo.username}:${mongo.password}@${mongo.host}:${mongo.port}/admin`,{
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }).then(console.log('mongoDB Connection Success'));
+        mongoose.connect(`${mongo.dialect}://${mongo.username}:${mongo.password}@${mongo.host}:${mongo.port}/${mongo.path}`,(err) => {
+            if(err){
+                console.error('mongoDB Connection Error')
+            } else {
+                console.log('mongoDB Connection Success')
+            }
+        }); 
     }
     connect();
     mongoose.connection.on('disconnected', connect);
