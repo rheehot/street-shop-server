@@ -13,15 +13,15 @@ const config = {
   root: path.normalize(`${__dirname}/../../..`),
   tz: process.env.TZ || 'Asia/Seoul',
   ip: process.env.IP || '0.0.0.0',
-  port: _.toSafeInteger(process.env.PORT) || 3000,
   database: {
-    mongooseDb: {
-      dialect: process.env.MYSTOCK_DATABASE_TYPE || 'mysql',
-      host: process.env.MYSTOCK_DATABASE_HOST || 'localhost',
-      port: process.env.MYSTOCK_DATABASE_PORT || 3306,
-      username: process.env.MYSTOCK_DATABASE_USERNAME,
-      password: process.env.MYSTOCK_DATABASE_PASSWORD,
-      schema: process.env.MYSTOCK_DATABASE_SCHEMA,
+    mongoosedb: {
+      dialect: process.env.SSS_DATABASE_TYPE || 'mongodb',
+      host: process.env.SSS_DATABASE_HOST || 'localhost',
+      port: process.env.SSS_DATABASE_PORT || 27017,
+      username: process.env.SSS_DATABASE_USERNAME || 'thorr',
+      password: process.env.SSS_DATABASE_PASSWORD || '1q2w3e4r!2',
+      schema: process.env.SSS_DATABASE_SCHEMA,
+      dbname: 'street-shop-server',
       },
     },
 };
