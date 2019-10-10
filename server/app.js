@@ -15,7 +15,7 @@ api.route(app);
 // use database
 const db = require('./config/database/mongoose.database');
 db();
-console.log("db 로그인까지 정상적으로 진행되었습니다")
+console.log('[DATABASE] db 로그인까지 정상적으로 진행되었습니다')
 /**
  * 처리하지 못한 예외 로그 기록
  */
@@ -42,7 +42,7 @@ process.on('SIGINT', () => {
 });
 
 server.listen(config.port, () => {
-    console.info('APP', `listening on port ${config.port}, in ${config.env} mode.`);
+    console.info('[APP]', `listening on port ${config.port}, in ${config.env} mode.`);
 });
 
 module.exports = server;
