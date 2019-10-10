@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const BooksSchema = new mongoose.Schema({
-    name: String,
-    title: String,
-    contents: String
+const UsersSchema = new mongoose.Schema({
+    userId: String,
+    userTags: String,
+    userPasswords: String
 });
 
-global.Books = global.Books || mongoose.model('books', BooksSchema);
-const Books = mongoose.model('books', BooksSchema);
+global.Users = global.Users || mongoose.model('users', UsersSchema);
+const Users = mongoose.model('users', UsersSchema);
 
-module.exports = Books;
+module.exports = Users;

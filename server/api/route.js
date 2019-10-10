@@ -1,19 +1,19 @@
 const express = require('express');
-  //example
+//example
 const users = require('./users');
 
 const route = (app) => {
-  const router = express.Router();
-  app.use(router);
+    const router = express.Router();
+    app.use(router);
 
-  router.get('/health', (req, res) => {
-    res.send(200);
-  });
+    router.get('/health', (req, res) => {
+        res.send(200);
+    });
 
-  //example
-  app.use('/api/users', users);
+    //example
+    app.use('/api/test', users);
 
-  return app;
+    return app;
 };
 
 module.exports = route;
