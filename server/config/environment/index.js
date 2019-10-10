@@ -1,9 +1,9 @@
 const dotenv = require('dotenv');
 const path = require('path');
-
+const _ = require('lodash')
 /* istanbul ignore next */
 dotenv.config({
-  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
+    path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
 });
 
 
@@ -18,13 +18,13 @@ const config = {
   database: {
     mongoosedb: {
       dialect: process.env.SSS_DATABASE_TYPE || 'mongodb',
-      host: process.env.SSS_DATABASE_HOST || 'ds329058.mlab.com',
+      host: process.env.SSS_DATABASE_HOST || '',
       port: process.env.SSS_DATABASE_PORT || 29058,
-      username: process.env.SSS_DATABASE_USERNAME || 'thorr',
-      password: process.env.SSS_DATABASE_PASSWORD || '1q2w3e4r!2',
-      schema: process.env.SSS_DATABASE_SCHEMA,
-      dbname: 'street-shop-server',
-      path: 'heroku_dmhkbx4g',
+      username: process.env.SSS_DATABASE_USERNAME || 'localhost',
+      password: process.env.SSS_DATABASE_PASSWORD || '',
+      schema: process.env.SSS_DATABASE_SCHEMA||'',
+      dbname: process.env.SSS_DATABASE_DBNAME||'',
+      path: process.env.SSS_DATABASE_PATH||'',
       },
     },
 };
