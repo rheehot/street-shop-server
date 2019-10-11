@@ -4,7 +4,7 @@ const mongo = config.database.mongoosedb;
 
 const mongooseDb = () => {
     function connect() {
-        mongoose.connect(`${mongo.dialect}://${mongo.username}:${mongo.password}@${mongo.host}:${mongo.port}/${mongo.path}`, {
+        mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }).catch((err) => {
