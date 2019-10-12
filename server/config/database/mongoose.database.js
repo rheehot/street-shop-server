@@ -13,7 +13,7 @@ const mongooseDb = () => {
         }).then(console.log('[DATABASE] mongoDB Connection Success'))
     }
     connect();
-    mongoose.connection.on('disconnected', connect);
+    mongoose.connection.on('[DATABASE] mongoDB Connection disconnected', connect);
 }
 
 
