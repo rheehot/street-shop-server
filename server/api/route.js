@@ -1,6 +1,6 @@
 const express = require('express');
 //example
-const users = require('./users');
+const test = require('./test');
 
 const route = (app) => {
     const router = express.Router();
@@ -11,7 +11,7 @@ const route = (app) => {
     });
 
     //example
-    app.use('/api/test', users);
+    app.use('/api/test', test);
 
     return app;
 };
