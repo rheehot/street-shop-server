@@ -2,7 +2,6 @@ const http = require('http');
 const express = require('express');
 const api = require('./api');
 const config = require('./config/environment');
-const database = require('./config/database');
 
 // create server
 const app = express();
@@ -35,14 +34,13 @@ process.on('SIGINT', () => {
         server.close(() => {
             console.info('APP', 'close.');
             //TODO 디비연결해제부분
-            database.mongooseDb.close();
             process.exit(0);
         });
     });
 });
 
 server.listen(config.port, () => {
-    console.info('[APP]', `listening on port ${config.port}, in ${config.env} mode.`);
+    console.info('[APP]', `listening on port ${config.port}.`);
 });
 
 module.exports = server;

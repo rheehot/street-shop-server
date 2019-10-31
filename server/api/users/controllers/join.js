@@ -7,5 +7,4 @@ async function join(req, res) {
     //localhost:port/api/test 에서 확인 가능.
 }
 
-
 module.exports = join;

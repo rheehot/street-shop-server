@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 const path = require('path');
-const _ = require('lodash')
+const _ = require('lodash');
+const config_env = require('../../.env');
 /* istanbul ignore next */
 dotenv.config({
     path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
@@ -18,13 +19,11 @@ const config = {
     database: {
         mongoosedb: {
             dialect: process.env.SSS_DATABASE_TYPE || 'mongodb',
-            host: process.env.SSS_DATABASE_HOST || '',
-            port: process.env.SSS_DATABASE_PORT || '',
-            username: process.env.SSS_DATABASE_USERNAME || 'localhost',
-            password: process.env.SSS_DATABASE_PASSWORD || '',
-            schema: process.env.SSS_DATABASE_SCHEMA || '',
-            dbname: process.env.SSS_DATABASE_DBNAME || '',
-            path: process.env.SSS_DATABASE_PATH || '',
+            host: process.env.SSS_DATABASE_HOST || config_env.SSS_DATABASE_HOST,
+            port: process.env.SSS_DATABASE_PORT || config_env.SSS_DATABASE_PORT,
+            username: process.env.SSS_DATABASE_USERNAME || config_env.SSS_DATABASE_USERNAME,
+            password: process.env.SSS_DATABASE_PASSWORD || config_env.SSS_DATABASE_PASSWORD,
+            path: process.env.SSS_DATABASE_PATH || config_env.SSS_DATABASE_PATH,
         },
     },
 };
