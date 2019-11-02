@@ -1,6 +1,7 @@
 const express = require('express');
 //example
-const test = require('./test');
+const users = require('./users');
+const shops = require('./shops');
 
 const route = (app) => {
     const router = express.Router();
@@ -12,6 +13,9 @@ const route = (app) => {
 
     //example
     app.use('/api/test', test);
+
+    //example 과 동일한 구조로 작성
+    app.use('/api/shops', shops);
 
     return app;
 };

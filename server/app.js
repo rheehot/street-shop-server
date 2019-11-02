@@ -39,10 +39,7 @@ process.on("SIGINT", () => {
 });
 
 server.listen(config.port, () => {
-  console.info(
-    "[APP]",
-    `listening on port ${config.port}, in ${config.env} mode.`
-  );
+    console.info('[APP]', `listening on port ${config.port}.`);
 });
 
 module.exports = server;
