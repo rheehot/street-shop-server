@@ -1,5 +1,5 @@
 const express = require('express');
-//example
+
 const users = require('./users');
 const shops = require('./shops');
 
@@ -11,11 +11,8 @@ const route = (app) => {
         res.send(200);
     });
 
-    //example
-    app.use('/api/test', test);
-
-    //example 과 동일한 구조로 작성
     app.use('/api/shops', shops);
+    app.use('/api/users', users);
 
     return app;
 };

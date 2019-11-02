@@ -1,10 +1,10 @@
 const config = require('../environment');
 const mongoose = require('mongoose');
-const mongo = config.database.mongoosedb;
+const env = config.database.mongoosedb;
 
 const mongooseDb = () => {
     function connect() {
-        mongoose.connect(process.env.MONGODB_URI, {
+        mongoose.connect(`${env.dialect}://${env.username}:${env.password}@${env.host}:${env.port}/${env.dbname}`, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }).catch((err) => {

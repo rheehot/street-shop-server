@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const path = require('path');
 const _ = require('lodash');
-const config_env = require('../../.env');
+
 /* istanbul ignore next */
 dotenv.config({
     path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
