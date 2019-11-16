@@ -1,41 +1,30 @@
 const shops = require('../model/shops')
+const _ = require('lodash')
 
 async function shopList(req, res) {
-    // console.log(req)
-    const shopList = await shops.find().exec().catch(err => console.log(err));
-    // shop 정보 여러개를 가지고 오기 위해서 
-    const copyShopList = []
     // 현재 위도, 현재 경도, 가게 위도, 가게 경도
-    let point = [req.query.lat, req.query.long]
-    for(let i=0; i < shopList.length; i++){
-        // shopList의 데이터가 그대로 들어가고 추가로 계산된 값이 들어가기 위해서 생성한 객체 
-        let copyData = {}
-        copyData.shopName = shopList[i]['shopName']
-        copyData.shopOwner = shopList[i]['shopOwner']
-        copyData.openDays = shopList[i]['openDays']
-        copyData.openTime = shopList[i]['openTime']
-        copyData.closeTime = shopList[i]['closeTime']
-        copyData.ownerComment = shopList[i]['ownerComment']
-        copyData.likeScore = shopList[i]['likeScore']
-        copyData.now = shopList[i]['now']
-        // location 값 제외하고, now 의 값이 있으면 그걸로 대체
-        copyData.location = shopList[i]['location']
-        // real_location 값이 존재하지 않게 할 것인지 이에 대해 알지못해 처리를 할 수 없다.
-        if (copyData.now.real_location.longitude != null && copyData.now.real_location.latitude != null){
-            point.push(copyData.now.real_location.latitude)
-            point.push(copyData.now.real_location.longitude)
-        } else {
-          point.push(copyData.location.latitude)
-          point.push(copyData.location.longitude)
-        }
-        copyData.District = PythagorasEquirectangular(point)
-        point.pop()
-        point.pop()
-        copyShopList.push(copyData) 
-        copyData = null
+    const { lat, long } = req.query;
+    if( !lat || !long){
+      //TODO: 입력된 위치(디바이스 위치)가 없을 경우 404 error
     }
-    // console.log(copyShopList)
-    res.send(copyShopList);
+    const shopList = await shops.find();
+    const mainList = shopList.map(e=>{
+      const { latitude, longitude } = e.now.real_location;
+      if( !latitude || !longitude ){
+        //TODO: 운영중인 가게 위치를 입력하지 않았을 경우 기존에 저장된 위치를 불러온다.
+      }
+      return {
+        shopName: e.shopName,
+        shopOwner: e.shopOwner,
+        now: e.now,
+        shopTags: e.shopTags,
+        ownerComment: e.ownerComment,
+        vicinity : PythagorasEquirectangular([lat,long,latitude,longitude])
+      }
+    })
+
+    const result = _.sortBy(mainList,['vicinity'])
+    res.send(result);
 }
 
 // 위도 : - 90 ~ 90
@@ -47,7 +36,6 @@ function Deg2Rad(deg) {
 }
 
 function PythagorasEquirectangular(pArray) {
-  console.log(pArray)
   pArray[0] = Deg2Rad(pArray[0]);
   pArray[2] = Deg2Rad(pArray[2]);
   pArray[1] = Deg2Rad(pArray[1]);
