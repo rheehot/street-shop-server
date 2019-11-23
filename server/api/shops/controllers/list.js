@@ -3,15 +3,14 @@ const _ = require('lodash')
 
 async function shopList(req, res) {
     // 거리 계산을 위해 들어갈 순서 : 현재 위도, 현재 경도, 가게 위도, 가게 경도
-    const { lat, long } = req.query;
+    const { lat, long, type, range } = req.query;
     if( !lat || !long){
-      res.status(404).send("Can not found your location. please enable your GPS");
+      return res.status(404).send("Can not found your location. please enable your GPS");
     }
     const shopList = await shops.find();
     const mainList = shopList.map(e=>{
       let { latitude, longitude } = e.now.real_location;
       if( !latitude || !longitude ){
-        // 완료. latitude, longitude 의 자료형이 const 여서 내부에서 값을 바꿀 수 없어 let 으로 변경 후 진행
         latitude = e.location.latitude;
         longitude = e.location.longitude;
       }
@@ -20,20 +19,38 @@ async function shopList(req, res) {
         shopOwner: e.shopOwner,
         now: {
           active : e.now.active,
-          // decimal128 자료형은 parseFloat로 출력하게 되면, 깔끔하게 정리가 됩니다. 이를 통해 새로운 obejct를 생성해서 안에서 값을 다시 정리해 넣어주는 과정을 진행했습니다.
           latitude : parseFloat(e.now.real_location.latitude),
           longitude : parseFloat(e.now.real_location.longitude),
           real_start_time : e.now.real_start_time,
           set_close_time : e.now.set_close_time,
         },
+        likeScore: e.likeScore,
         shopTags: e.shopTags,
         ownerComment: e.ownerComment,
         vicinity : PythagorasEquirectangular([lat, long, latitude, longitude])
       }
     })
-
     const result = _.sortBy(mainList,['vicinity'])
-    res.send(result);
+
+    switch (type) {
+      case "main":
+        return res.send(result);
+      case "rank":
+        const rankResult = _.sortBy(mainList,[{'likeScore':'desc'}])
+        return res.send(rankResult);
+      case "limit":
+        const limitResult = mainList.map(l=>{
+          if(!range){
+            range = 100000;
+          }
+          if(l.vicinity <= range){
+            return l;
+          }
+        })  
+        return res.send(limitResult);
+      default:
+        return res.send(result);
+    }
 }
 
 // 위도 : - 90 ~ 90
