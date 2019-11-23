@@ -3,8 +3,9 @@ const _ = require('lodash')
 
 async function shopList(req, res) {
     // 거리 계산을 위해 들어갈 순서 : 현재 위도, 현재 경도, 가게 위도, 가게 경도
-    const { lat, long, type, range } = req.query;
-    if(!range) range = 100000;
+    const { lat, long, type } = req.query;
+    const range = req.query.range || 10000;
+    
     if( !lat || !long ){
       return res.status(404).send("Can not found your location. please enable your GPS");
     }
