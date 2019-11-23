@@ -1,3 +1,5 @@
+./yarn.lock
+
 ### environment ###
 ./server/config/environment/
 

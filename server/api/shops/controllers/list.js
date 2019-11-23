@@ -38,6 +38,8 @@ async function shopList(req, res) {
       return l.vicinity <= range;
     });
 
+    if(limitResult.length < 1) return res.setStatus(204);
+
     switch (type) {
       case "main":
         const result = _.sortBy(limitResult,['vicinity']);
