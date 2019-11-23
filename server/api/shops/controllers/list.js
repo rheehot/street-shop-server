@@ -4,11 +4,13 @@ const _ = require('lodash')
 async function shopList(req, res) {
     // 거리 계산을 위해 들어갈 순서 : 현재 위도, 현재 경도, 가게 위도, 가게 경도
     const { lat, long, type, range } = req.query;
-    if( !lat || !long){
+    if(!range) range = 100000;
+    if( !lat || !long ){
       return res.status(404).send("Can not found your location. please enable your GPS");
     }
+
     const shopList = await shops.find();
-    const mainList = shopList.map(e=>{
+    const mainList = shopList.map((e) => {
       let { latitude, longitude } = e.now.real_location;
       if( !latitude || !longitude ){
         latitude = e.location.latitude;
@@ -27,29 +29,25 @@ async function shopList(req, res) {
         likeScore: e.likeScore,
         shopTags: e.shopTags,
         ownerComment: e.ownerComment,
-        vicinity : PythagorasEquirectangular([lat, long, latitude, longitude])
+        vicinity : PythagorasEquirectangular([lat, long, latitude, longitude]),
       }
-    })
-    const result = _.sortBy(mainList,['vicinity'])
+    });
+
+    const limitResult = mainList.filter((l) => {
+      return l.vicinity <= range;
+    });
 
     switch (type) {
       case "main":
+        const result = _.sortBy(limitResult,['vicinity']);
         return res.send(result);
+
       case "rank":
-        const rankResult = _.sortBy(mainList,[{'likeScore':'desc'}])
+        const rankResult = _.sortBy(limitResult,[{'likeScore':'desc'}]);
         return res.send(rankResult);
-      case "limit":
-        const limitResult = mainList.map(l=>{
-          if(!range){
-            range = 100000;
-          }
-          if(l.vicinity <= range){
-            return l;
-          }
-        })  
-        return res.send(limitResult);
+
       default:
-        return res.send(result);
+        return res.send(limitResult);
     }
 }
 
