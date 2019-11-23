@@ -7,14 +7,14 @@ const ShopsSchema = new mongoose.Schema({
     openDays: Array,
     openTime: Date,
     closeTime: Date,
-    location: {longitude: String,latitude:String},
+    location: {longitude: mongoose.Types.Decimal128, latitude: mongoose.Types.Decimal128},
     ownerComment: String,
     likeScore: Number,
     now: { 
         active :Boolean, 
         real_location : {
-            longitude : String, 
-            latitude : String
+            longitude : mongoose.Types.Decimal128, 
+            latitude : mongoose.Types.Decimal128
         },
         real_start_time:Date,
         set_close_time: Date,
