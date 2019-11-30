@@ -5,6 +5,7 @@ const router = express.Router();
 
 
 // example
-router.get('/', controller.join);
+router.post('/my', controller.myInfo);
+router.post('/join', controller.join);
 
 module.exports = router;
