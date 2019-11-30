@@ -33,14 +33,14 @@ process.on("uncaughtException", err => {
  *  - 실시간 서버 연결 종료
  *  - 데이터베이스 커넥션 종료
  */
-process.on("SIGINT", () => {
-  server.close(() => {
-    console.info("APP", "close.");
-    //TODO 디비연결해제부분
-    // database.mongooseDb.close();
-    process.exit(0);
-  });
-});
+// process.on("SIGINT", () => {
+//   server.close(() => {
+//     console.info("APP", "close.");
+//     //TODO 디비연결해제부분
+//     // database.mongooseDb.close();
+//     process.exit(0);
+//   });
+// });
 
 server.listen(config.port, () => {
     console.info('[APP]', `listening on port ${config.port}.`);
