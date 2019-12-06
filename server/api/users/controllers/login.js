@@ -7,7 +7,7 @@ function kakaoLogin(req, res){
     return axios({
         method: 'get',
         url: 'https://kapi.kakao.com/v2/user/me',
-        headers: {'Authorization':token},
+        headers: { 'Authorization': token },
         responseType: 'json',
     }).then(async function(response) {
         const user = response.data;
