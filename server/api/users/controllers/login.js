@@ -29,7 +29,7 @@ function kakaoLogin(req, res){
             userInfo.nickname = flag.nickName;
         }
         return res.send(userInfo)
-    }).catch(err=>console.log(err))
+    }).catch(err=>console.error(`[login error] ${err}`))
     
 }
 
