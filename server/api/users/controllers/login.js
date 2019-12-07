@@ -23,7 +23,7 @@ function kakaoLogin(req, res){
                 },
             }
             //upsert: 가입하지않았지만 이미 정보가 있는 경우 update, 없는경우 insert해준다..
-            await Users.findOneAndUpdate({ userId }, userData, { upser: true });
+            await Users.findOneAndUpdate({ userId }, userData, { upsert: true });
             return res.send({ isUser: false, userId });
         }
 
