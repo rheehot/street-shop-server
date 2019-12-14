@@ -15,6 +15,7 @@ async function join(req, res) {
     res.send(join)
 }
 
+
 //TODO: 이미 저장되어있는 유저정보에서 추가 입력받은 데이터를 업데이트한다.
 // 일반유저와 사장유저일 경우의 두가지 경우로 구분한다.
 
@@ -22,5 +23,27 @@ async function join(req, res) {
 // 일반일 경우 userId, owner : false , nickname, 관심태그:[]
 // 사장일 경우 userId, owner : true , nickname, shop정보
     // shop정보: { 사장이름, 가게이름, 운영요일: [], 가게태그: [], 운영시작시간: '', 운영종료시간: '', 운영위치: {경도:'', 위도: ''}}
+
+// 프론트에서 넘어온 정보를 통해 각 함수 실행
+function classifyJob(req, res){
+    const isOwner = req.params.isOwner;
+
+}
+
+// 일반 사용자 데이터 업데이트 함수
+function normalUser(req,res){
+    const userData = {
+
+    }
+    const userUpdate = await Users.Update(userData);
+}
+
+// 사장 데이터 업데이트 함수
+function ownerUser(req,res){
+    const ownerData = {
+        
+    }
+    const ownerUpdate = await Users.Update(ownerData)
+}
 
 module.exports = join;
