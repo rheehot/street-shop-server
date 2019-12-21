@@ -34,8 +34,8 @@ async function join(req, res){
                 latitude: req.body.latitude            
             }
         }
-        const joinData = await Users.create(ownerData)
-        res.send(`${joinData.nickName}님 환영합니다.`).status(200)
+        const joinData = await Users.create(ownerData);
+        res.send(`${joinData.nickName}님 환영합니다.`).status(200);
         } else {
         // 일반일 경우 userId, owner : false , nickname, 관심태그:[]
         const userData = {
