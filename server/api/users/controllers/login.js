@@ -24,7 +24,7 @@ function kakaoLogin(req, res){
             }
             //upsert: 가입하지않았지만 이미 정보가 있는 경우 update, 없는경우 insert해준다..
             await Users.findOneAndUpdate({ userId }, userData, { upsert: true });
-            return res.send({ isUser: false, userId });
+            return res.status(404).send({ isUser: false, userId });
         }
 
         //TODO: 데이터 상의후(회원가입 완료후) 다듬어야 함
@@ -45,7 +45,10 @@ function kakaoLogin(req, res){
             userInfo.nickname = isUser.nickname;
         }
         return res.send(userInfo);
-    }).catch((err) => console.error(`[login error] ${err}`));
+    }).catch((err) => {
+        console.error(`[login error] ${err}`)
+        return res.status(err.response.status).send(err.response.statusText);
+    });
     
 }
 
