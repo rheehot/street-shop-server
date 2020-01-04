@@ -3,15 +3,14 @@ const _ = require('lodash')
 
 async function shopList(req, res) {
     // 거리 계산을 위해 들어갈 순서 : 현재 위도, 현재 경도, 가게 위도, 가게 경도
-    const { lat, long, type } = req.query;
+    const { lat, long, type, active } = req.query;
     const range = req.query.range || 10000;
     
     if( !lat || !long ){
       return res.status(404).send("Can not found your location. please enable your GPS");
     }
-
-    // TODO : 운영중인 shop만 추출해야함.
-    const shopList = await shops.find();
+    const shopActive = ((active === 'true') || (active === 'false')) ? { 'now.active' : active } : null;
+    const shopList = await shops.find(shopActive);
     const mainList = shopList.map((e) => {
       let { latitude, longitude } = e.now.real_location;
       if( !latitude || !longitude ){
@@ -39,7 +38,7 @@ async function shopList(req, res) {
       return l.vicinity <= range;
     });
 
-    if(limitResult.length < 1) return res.setStatus(204);
+    if(limitResult.length < 1) return res.sendStatus(204);
 
     switch (type) {
       case "main":
