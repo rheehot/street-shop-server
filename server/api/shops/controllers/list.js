@@ -10,6 +10,7 @@ async function shopList(req, res) {
       return res.status(404).send("Can not found your location. please enable your GPS");
     }
 
+    // TODO : 운영중인 shop만 추출해야함.
     const shopList = await shops.find();
     const mainList = shopList.map((e) => {
       let { latitude, longitude } = e.now.real_location;
