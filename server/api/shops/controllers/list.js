@@ -38,7 +38,7 @@ async function shopList(req, res) {
       return l.vicinity <= range;
     });
 
-    if(limitResult.length < 1) return res.setStatus(204);
+    if(limitResult.length < 1) return res.sendStatus(204);
 
     switch (type) {
       case "main":
