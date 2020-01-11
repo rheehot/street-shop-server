@@ -8,7 +8,7 @@ const Shops = require('../../shops/model/shops');
 // 일반유저와 사장유저일 경우의 두가지 경우로 구분한다.
 async function join(req, res){
     // 카톡 ID로 조회 절차 진행
-    const isUser = await Users.findOne({ userId : user.id, isUser : true });
+    const isUser = await Users.findOne({ userId : req.userId, isUser : true });
     const isOwner = req.body.isOwner; 
     if(!isUser){
         // 회원가입을 진행해야 됌
@@ -25,7 +25,7 @@ async function join(req, res){
             const joinData = await Users.create(ownerData);
             const isShop = addShop(req);
             if(!isShop){
-                res.status(403)
+                res.status(403) 
             } else {
                 res.send(`${joinData.nickName}님 환영합니다.`);
             }
@@ -46,7 +46,7 @@ async function join(req, res){
 // SHOP 정보 추가 함수
 async function addShop(req){
     const shopData = {
-        shopOwner : req.body.ownerId,
+        shopOwner : req.body.ownerName,
         shopName : req.body.shopName,
         openDays : req.body.openDays,
         shopTags : req.body.shopTags,
@@ -55,13 +55,14 @@ async function addShop(req){
             latitude: req.body.latitude
         },
         startTime : req.body.startTime,
-        endTime : req.body.endTime
+        endTime : req.body.closeTime
     }
     const isValid = validCheck(shopData);
+    console.log(isValid)
     if (!isValid){
         return false;
     } else {
-        await Users.findOneAndUpdate({ shopOwner : shopData.shopOwner, shopName : shopData }, shopData, { upsert: true });
+        await Shops.findOneAndUpdate({ shopOwner : shopData.shopOwner, shopName : shopData.shopName }, shopData, { upsert: true });
         return true;
     }
 }
