@@ -1,6 +1,7 @@
 const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const api = require("./api");
 const config = require("./config/environment");
 const database = require("./config/database");
@@ -12,7 +13,7 @@ const server = http.createServer(app);
 // body-parser, post 요청시 body 데이터 추출 하기 위함
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(cors({ origin: [/localhost/]}));
 // 라우트 설정
 api.route(app);
 
