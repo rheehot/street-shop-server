@@ -1,52 +1,60 @@
-const Users = require('../model/Users')
-// async function join(req, res) {
-//     // Array 요소 : userTags, userFavorites, String 요소 : userId, Passwords(해시 암호화 필요), Object 요소 : Kakao, 
-//     const joinInfo = {
-//         userId: req.body.userId,
-//         nickName: req.body.nickName,
-//         userTags: req.body.userTags,
-//         userPasswords: req.body.userPasswords,
-//         userFavorites: req.body.userFavorites,
-//         kakao : req.body.kakao,
-//         owner : req.body.owner
-//     }
-//     const join = await Users.create(joinInfo);
-//     res.send(join)
-// }
+const Users = require('../model/Users');
+const Shops = require('../../shops/model/shops');
 
-// TODO: 이미 저장되어 있는 유저정보에서 추가 입력받은 데이터를 업데이트한다.
-// 일반유저와 사장유저일 경우의 두가지 경우로 구분한다.
 async function join(req, res){
-    const isOwner = req.body.isOwner;
-    if(isOwner===true){
-        // 사장일 경우 userId, owner : true , nickname, shop정보
-            // shop정보: { 사장이름, 가게이름, 운영요일: [], 가게태그: [], 운영시작시간: '', 운영종료시간: '', 운영위치: {경도:'', 위도: ''}}
+    /** 
+     * TO.또르 : 이미 login API에서 카카오에 요청한 회원정보를 확인후 저장해두었음. 
+     * 따라서 플래그(isUser)만 변경해주고, 추가 데이터를 업데이트 해야 함.
+     **/
+    const { userId, isOwner, nickName, userTags, shopName, shopTags, openDays, openTime, closeTime, longitude, latitude, ownerComment} = req.body;
+    if (!userId || !isOwner || !nickName ) res.sendStatus(204);
+        const isUser = await Users.findOne({ userId, isUser : true }); /**회원여부체크 */
+    if(isUser) return res.sendStatus(302);
+    if(isOwner === 'true'){
+        if (!shopName || !shopTags) return sendStauts(204);
+        const tags = shopTags.replace(/(\s*)/g, '').split(',');
         const ownerData = {
-            userId: req.body.userId,
-            owner : isOwner,
-            nickName: req.body.nickName,
-            shopInfo: {
-                ownerName: req.body.ownerName,
-                shopName: req.body.shopName,
-                startTime: req.body.startTime,
-                closeTime: req.body.closeTime,
-                longitude: req.body.longitude,
-                latitude: req.body.latitude            
-            }
-        }
-        const joinData = await Users.create(ownerData);
-        res.send(`${joinData.nickName}님 환영합니다.`).status(200);
-        } else {
-        // 일반일 경우 userId, owner : false , nickname, 관심태그:[]
+            owner : true,
+            nickName,
+            isUser : true,
+        };
+        const shopData = {
+            shopName,
+            shopOwner: userId,
+            shopTags: removeSpace(tags),
+            openDays : openDays || null,
+            openTime : openTime || null,
+            closeTime : closeTime || null,
+            location: {
+                longitude : longitude ||null, 
+                latitude : latitude ||null,
+            },
+            ownerComment : ownerComment || '',
+        };
+
+        await Users.updateOne({userId, deleted: null}, ownerData, {upsert: true})
+        .then(await Shops.create(shopData));
+        return res.sendStatus(200);
+    } else if (isOwner === 'false'){
+        if (!userTags) res.sendStatus(204);
+        const tags = userTags.replace(/(\s*)/g, '').split(',');
+        if (tags.length > 3) return res.sendStatus(206); /** 관심태그 최대 3개 */
         const userData = {
-            userId: req.body.userId,
-            owner : isOwner,
-            nickName: req.body.nickName,
-            userFavorites: req.body.userFavorites
-        }
-        const joinData = await Users.create(userData)
-        res.send(`${joinData.nickName}님 환영합니다.`).status(200)
+            owner : false,
+            nickName,
+            userTags: removeSpace(tags),
+            isUser: true,
+        };
+        await Users.updateOne({userId, deleted: null}, userData, {upsert: true});
+        return res.sendStatus(200);
     }
+    return res.sendStatus(500);
+}
+
+function removeSpace(arr){ /**배열의 빈값 제거 */
+    return arr.filter((e) => {
+        return e !== '';
+    });
 }
 
 module.exports = join;
