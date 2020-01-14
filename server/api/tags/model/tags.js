@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const TagsSchema = new mongoose.Schema({
-	tag : String,
+	tags : String,
 	icon : String,
 });
 
