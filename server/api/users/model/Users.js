@@ -5,7 +5,7 @@ const UsersSchema = new mongoose.Schema({
     userId: { type:String, required: true },
     userTags: {type: Array, default: []},
     userPasswords: String,
-    userFavorites: {type: Array, default: []},
+    favoriteShops: {type: Array, default: []},
     kakao : {type: Object, default: {}},
     owner : {type: Boolean, default: false },
     isUser: { type: Boolean, default: false }, //가입 정보
