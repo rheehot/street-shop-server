@@ -6,5 +6,6 @@ const router = express.Router();
 
 // example
 router.get('/', controller.list);
+router.get('/:shopId', controller.detail);
 
 module.exports = router;
