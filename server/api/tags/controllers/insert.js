@@ -2,20 +2,22 @@
 const Tags = require('../model/Tags');
 
 async function insert(req, res) {
-	const bulkText = req.body;
-	const manufacture = bulkText.tags.replace(/\t/g, '"},{"icon\":"').replace(/\n/g,'"},{"tag":"')
-	const text = '{"tag":"' + manufacture + '"}';
-	const textArr = text.split(',');
-	const result = textArr.map((e)=>{
-		return JSON.parse(e)
-	});
-	let n = result.length;
-	while( n >= 0 ){
-	await Tags.create(result[n],result[n-1]);
-		break;
-	}
-    console.log(result[n-48])
-	res.send(result);
+	const bulkText = req.body.tags;
+	const result = bulkText.split(',');
+	console.log(result)
+	// const manufacture = bulkText.tags.replace(/\t/g, '"},{"icon\":"').replace(/\n/g,'"},{"tag":"')
+	// const text = '{"tag":"' + manufacture + '"}';
+	// const textArr = text.split(',');
+	// const result = textArr.map((e)=>{
+	// 	return JSON.parse(e)
+	// });
+	// let n = result.length;
+	// while( n >= 0 ){
+	// await Tags.create(result[n],result[n-1]);
+	// 	break;
+	// }
+    // console.log(result[n-48])
+	return res.send(result);
 }
 
 module.exports = insert;
