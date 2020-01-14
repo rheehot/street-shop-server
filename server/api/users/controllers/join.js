@@ -6,8 +6,8 @@ async function join(req, res){
      * TO.또르 : 이미 login API에서 카카오에 요청한 회원정보를 확인후 저장해두었음. 
      * 따라서 플래그(isUser)만 변경해주고, 추가 데이터를 업데이트 해야 함.
      **/
-    const { userId, isOwner, nickName, userTags, shopName, shopTags, openDays, openTime, closeTime, longitude, latitude, ownerComment} = req.body;
-    if (!userId || !isOwner || !nickName ) res.sendStatus(204);
+    const { userId, isOwner, nickName, userTags, shopName, shopTags, openDays, openTime, closeTime, longitude, latitude, ownerComment, useProfile} = req.body;
+    if (!userId || !isOwner || !nickName || !useProfile) return res.sendStatus(204);
         const isUser = await Users.findOne({ userId, isUser : true }); /**회원여부체크 */
     if(isUser) return res.sendStatus(302);
     if(isOwner === 'true'){
@@ -16,6 +16,7 @@ async function join(req, res){
         const ownerData = {
             owner : true,
             nickName,
+            useProfile,
             isUser : true,
         };
         const shopData = {
@@ -42,6 +43,7 @@ async function join(req, res){
         const userData = {
             owner : false,
             nickName,
+            useProfile,
             userTags: removeSpace(tags),
             isUser: true,
         };
