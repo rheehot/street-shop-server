@@ -2,6 +2,7 @@ const express = require('express');
 
 const users = require('./users');
 const shops = require('./shops');
+const tags = require('./tags');
 
 const route = (app) => {
     const router = express.Router();
@@ -13,6 +14,7 @@ const route = (app) => {
 
     app.use('/api/shops', shops);
     app.use('/api/users', users);
+    app.use('/api/tags', tags);
 
     return app;
 };
